@@ -11,6 +11,8 @@ export default function Pagination({
   onChange,
   page,
 }: PaginationProps) {
+  if (totalPages <= 1) return null;
+
   return (
     <ReactPaginate
       containerClassName={css.pagination}

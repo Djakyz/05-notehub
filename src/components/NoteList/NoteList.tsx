@@ -19,9 +19,10 @@ const NoteList = ({ notes }: NoteListProps) => {
     <ul className={css.list}>
       {notes.map((note) => (
         <li key={note.id} className={css.listItem}>
-          <h2 className={css.title}>{note.title}</h2>{" "}
+          <h2 className={css.title}>{note.title}</h2>
           <p className={css.description}>{note.content}</p>
           <div className={css.footer}>
+            <span className={css.tag}>{note.tag}</span>
             <button
               className={css.button}
               onClick={() => mutation.mutate(note.id)}

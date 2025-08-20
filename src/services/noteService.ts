@@ -12,7 +12,7 @@ const noteHubAxios = axios.create({
   },
 });
 
-interface FetchNotesRespose {
+interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
 }
@@ -20,7 +20,7 @@ interface FetchNotesRespose {
 export async function fetchNotes(
   page: number,
   search: string
-): Promise<FetchNotesRespose> {
+): Promise<FetchNotesResponse> {
   const { data } = await noteHubAxios.get("/notes", {
     params: { perPage: 12, page, search },
   });

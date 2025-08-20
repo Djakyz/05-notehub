@@ -63,11 +63,11 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         <label className={css.formGroup}>
           Tag
           <Field className={css.input} as="select" name="tag" type="text">
-            <option value="work">Work</option>
-            <option value="personal">Personal</option>
-            <option value="meeting">Meeting</option>
-            <option value="shopping">Shopping</option>
-            <option value="todo">Todo</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Todo">Todo</option>
           </Field>
           <ErrorMessage className={css.error} name="tag" component="span" />
         </label>

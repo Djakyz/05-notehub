@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import NoteForm from "../NoteForm/NoteForm";
 import { fetchNotes } from "../../services/noteService";
-import NoteList from "..//NoteList/NoteList";
+import NoteList from "../NoteList/NoteList";
 import css from "./App.module.css";
 import { useState } from "react";
 import Modal from "../Modal/Modal";
@@ -35,9 +35,18 @@ const App = () => {
 
   const handleSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
-  }, 1000);
+    setPage(1);
+  }, 3000);
+
+  const filteredNotes = data?.notes.filter(
+    (note) =>
+      note.title.toLowerCase().includes(search.toLowerCase()) ||
+      note.content.toLowerCase().includes(search.toLowerCase()) ||
+      note.tag.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox onChange={handleSearch} />
         {data && data.totalPages > 1 && (
@@ -48,12 +57,12 @@ const App = () => {
           />
         )}
         <button onClick={handleOpenModal} type="button" className={css.button}>
-          +
+          Create note +
         </button>
       </header>
 
-      {isSuccess && data && data?.notes.length > 0 ? (
-        <NoteList notes={data.notes} />
+      {isSuccess && filteredNotes && filteredNotes.length > 0 ? (
+        <NoteList notes={filteredNotes} />
       ) : (
         !isLoading && <p>Notes not found</p>
       )}

@@ -13,6 +13,7 @@ const SearchBox = ({ onChange }: SearchBoxProps) => {
       className={css.input}
       type="text"
       name="search"
+      placeholder="Search notes..."
     />
   );
 };
