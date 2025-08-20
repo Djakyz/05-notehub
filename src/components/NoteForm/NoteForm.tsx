@@ -70,7 +70,7 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
           </Field>
           <ErrorMessage className={css.error} name="tag" component="span" />
         </label>
-        <button type="button" className={css.cancelButton}>
+        <button type="button" className={css.cancelButton} onClick={closeModal}>
           Cancel
         </button>
         <button type="submit" className={css.submitButton}>
