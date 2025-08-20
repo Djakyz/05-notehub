@@ -54,7 +54,12 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         </label>
         <label className={css.formGroup}>
           Content
-          <Field className={css.textarea} name="content" type="text" rows={8} />
+          <Field
+            className={css.textarea}
+            name="content"
+            as="textarea"
+            rows={8}
+          />
           <ErrorMessage className={css.error} name="content" component="span" />
         </label>
         <label className={css.formGroup}>
@@ -68,12 +73,18 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
           </Field>
           <ErrorMessage className={css.error} name="tag" component="span" />
         </label>
-        <button type="button" className={css.cancelButton} onClick={closeModal}>
-          Cancel
-        </button>
-        <button type="submit" className={css.submitButton}>
-          Create note
-        </button>
+        <div className={css.actions}>
+          <button
+            type="button"
+            className={css.cancelButton}
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+          <button type="submit" className={css.submitButton}>
+            Create note
+          </button>
+        </div>
       </Form>
     </Formik>
   );
