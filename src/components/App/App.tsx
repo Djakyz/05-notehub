@@ -45,7 +45,13 @@ const App = () => {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox onChange={handleSearch} />
+        <SearchBox
+          onChange={handleSearch}
+          onEnter={(value) => {
+            setSearch(value);
+            setPage(1);
+          }}
+        />
         {data && data.totalPages > 1 && (
           <Pagination
             page={page}
