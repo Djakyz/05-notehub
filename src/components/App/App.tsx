@@ -1,16 +1,69 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchNotes } from "../../services/noteService";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import NoteForm from "../NoteForm/NoteForm";
+import { fetchNotes } from "../../services/noteService";
+import NoteList from "..//NoteList/NoteList";
+import css from "./App.module.css";
+import { useState } from "react";
+import Modal from "../Modal/Modal";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Pagination from "../Pagination/Pagination";
+import SearchBox from "../SearchBox/SearchBox";
+import { useDebouncedCallback } from "use-debounce";
 
 const App = () => {
-  const { data } = useQuery({
-    queryKey: ["notes"],
-    queryFn: () => fetchNotes(),
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const { data, isSuccess, isLoading, isError } = useQuery({
+    queryKey: ["notes", page, search],
+    queryFn: () => fetchNotes(page, search),
+    placeholderData: keepPreviousData,
   });
-  console.log(data?.notes);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const handleOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleSearch = useDebouncedCallback((value: string) => {
+    setSearch(value);
+  }, 1000);
   return (
     <div>
-      <NoteForm />
+      <header className={css.toolbar}>
+        <SearchBox onChange={handleSearch} />
+        {data && data.totalPages > 1 && (
+          <Pagination
+            page={page}
+            totalPages={data.totalPages}
+            onChange={handlePageChange}
+          />
+        )}
+        <button onClick={handleOpenModal} type="button" className={css.button}>
+          +
+        </button>
+      </header>
+
+      {isSuccess && data && data?.notes.length > 0 ? (
+        <NoteList notes={data.notes} />
+      ) : (
+        !isLoading && <p>Notes not found</p>
+      )}
+      {isLoading && !data && <Loader />}
+      {isError && <ErrorMessage />}
+      {modalIsOpen && (
+        <Modal closeModal={handleCloseModal}>
+          <NoteForm closeModal={handleCloseModal} />
+        </Modal>
+      )}
     </div>
   );
 };
