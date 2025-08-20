@@ -38,11 +38,8 @@ const App = () => {
     setPage(1);
   }, 3000);
 
-  const filteredNotes = data?.notes.filter(
-    (note) =>
-      note.title.toLowerCase().includes(search.toLowerCase()) ||
-      note.content.toLowerCase().includes(search.toLowerCase()) ||
-      note.tag.toLowerCase().includes(search.toLowerCase())
+  const filteredNotes = data?.notes.filter((note) =>
+    note.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
