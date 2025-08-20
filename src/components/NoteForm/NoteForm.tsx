@@ -16,12 +16,11 @@ interface NoteFormProps {
 
 const ValidationSchema = Yup.object().shape({
   title: Yup.string()
-    .min(2, "Title must have min 2 characters")
-    .max(10, "Title must have max 10 characters")
+    .min(3, "Title must have min 3 characters")
+    .max(50, "Title must have max 50 characters")
     .required("Required"),
   content: Yup.string()
-    .min(2, "Description must have min 2 characters")
-    .max(50, "Description must have max 50 characters")
+    .max(500, "Description must have max 500 characters")
     .required("Required"),
   tag: Yup.string()
     .oneOf(["Work", "Personal", "Meeting", "Shopping", "Todo"])
@@ -57,7 +56,7 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
         </label>
         <label className={css.formGroup}>
           Content
-          <Field className={css.input} name="content" type="text" />
+          <Field className={css.textarea} name="content" type="text" rows={8} />
           <ErrorMessage className={css.error} name="content" component="span" />
         </label>
         <label className={css.formGroup}>
@@ -71,8 +70,11 @@ export default function NoteForm({ closeModal }: NoteFormProps) {
           </Field>
           <ErrorMessage className={css.error} name="tag" component="span" />
         </label>
+        <button type="button" className={css.cancelButton}>
+          Cancel
+        </button>
         <button type="submit" className={css.submitButton}>
-          Submit
+          Create note
         </button>
       </Form>
     </Formik>
