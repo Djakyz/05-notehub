@@ -21,7 +21,7 @@ export async function fetchNotes(
   page: number,
   search: string
 ): Promise<FetchNotesResponse> {
-  const { data } = await noteHubAxios.get("/notes", {
+  const { data } = await noteHubAxios.get<FetchNotesResponse>("/notes", {
     params: { perPage: 12, page, search },
   });
   return data;

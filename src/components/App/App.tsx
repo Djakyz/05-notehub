@@ -15,6 +15,7 @@ const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
   const { data, isSuccess, isLoading, isError } = useQuery({
     queryKey: ["notes", page, search],
     queryFn: () => fetchNotes(page, search),
@@ -38,20 +39,10 @@ const App = () => {
     setPage(1);
   }, 3000);
 
-  const filteredNotes = data?.notes.filter((note) =>
-    note.title.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox
-          onChange={handleSearch}
-          onEnter={(value) => {
-            setSearch(value);
-            setPage(1);
-          }}
-        />
+        <SearchBox onChange={handleSearch} />
         {data && data.totalPages > 1 && (
           <Pagination
             page={page}
@@ -64,13 +55,15 @@ const App = () => {
         </button>
       </header>
 
-      {isSuccess && filteredNotes && filteredNotes.length > 0 ? (
-        <NoteList notes={filteredNotes} />
+      {isSuccess && data?.notes.length > 0 ? (
+        <NoteList notes={data.notes} />
       ) : (
         !isLoading && <p>Notes not found</p>
       )}
+
       {isLoading && !data && <Loader />}
       {isError && <ErrorMessage />}
+
       {modalIsOpen && (
         <Modal closeModal={handleCloseModal}>
           <NoteForm closeModal={handleCloseModal} />
